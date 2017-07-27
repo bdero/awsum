@@ -11,6 +11,8 @@ find_package(SDL2_mixer REQUIRED)
 find_package(Vorbis REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
+find_package(PhysFS REQUIRED)
+find_package(YamlCpp REQUIRED)
 
 include_directories(
         ${PROJECT_SOURCE_DIR}/src
@@ -21,6 +23,8 @@ include_directories(
         ${VORBIS_INCLUDE_DIRS}
         ${OPENGL_INCLUDE_DIR}
         ${GLEW_INCLUDE_DIRS}
+        ${PHYSFS_INCLUDE_DIR}
+        ${YAMLCPP_INCLUDE_DIR}
 )
 
 file(GLOB SRC_FILES ${PROJECT_SOURCE_DIR}/src/*.cpp)
@@ -34,4 +38,6 @@ target_link_libraries(awsum
         ${VORBIS_LIBRARIES}
         ${OPENGL_LIBRARIES}
         ${GLEW_LIBRARIES}
+        ${PHYSFS_LIBRARY}
+        ${YAMLCPP_LIBRARY}
 )
