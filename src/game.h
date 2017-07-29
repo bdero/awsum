@@ -1,17 +1,21 @@
 #pragma once
 
 //#include <unordered_map>
+#include <memory>
 #include <SDL2/SDL.h>
 
+#include <sdl_utils.h>
+
 class Game {
-	SDL_Window *window;
-	SDL_Renderer *renderer;
+	std::unique_ptr<SDL_Window, sdl_deleter> window;
+	std::unique_ptr<SDL_Renderer, sdl_deleter> renderer;
 	int win_width, win_height; // Window size, stretch to this
 	int game_width, game_height; // Internal game resolution
 	
 	//std::unordered_map<int, SDL_Texture*> texture_bank;
 public:
 	int init(int width, int height);
+	void fetchSettings();
 	void quit();
 	
 	//int loadTexture(const char *filename);
