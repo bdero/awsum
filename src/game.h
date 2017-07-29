@@ -1,21 +1,22 @@
 #pragma once
 
-//#include <unordered_map>
 #include <memory>
+#include <string>
 #include <SDL2/SDL.h>
 
-#include <sdl_utils.h>
+#include "sdl_utils.h"
+#include "settings.h"
 
 class Game {
 	std::unique_ptr<SDL_Window, sdl_deleter> window;
 	std::unique_ptr<SDL_Renderer, sdl_deleter> renderer;
-	int win_width, win_height; // Window size, stretch to this
+    std::unique_ptr<Settings> settings;
+
 	int game_width, game_height; // Internal game resolution
 	
 	//std::unordered_map<int, SDL_Texture*> texture_bank;
 public:
-	int init(int width, int height);
-	void fetchSettings();
+	int init();
 	void quit();
 	
 	//int loadTexture(const char *filename);
@@ -32,6 +33,7 @@ public:
 // Getters
 	int width() { return game_width; };
 	int height() { return game_height; };
+	YAML::Node setting() { return settings.get()->get(); };
 	
 // Singleton stuff
 private:

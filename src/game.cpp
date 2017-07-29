@@ -3,19 +3,20 @@
 
 using namespace std;
 
-int Game::init(int width, int height) {
+int Game::init() {
+	settings = std::unique_ptr<Settings>(new Settings());
+
 	if(SDL_Init(SDL_INIT_EVERYTHING) < 0) {
 		cout << "Failed to initialize SDL." << endl << SDL_GetError();
 		return -1;
 	}
-
-	win_width = width;
-	win_height = height;
-
+    auto width = setting()["window"]["width"];
 	window = std::unique_ptr<SDL_Window, sdl_deleter>(
 			SDL_CreateWindow(
 					"Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-					width, height, SDL_WINDOW_RESIZABLE),
+					setting()["window"]["width"].as<int>(),
+                    setting()["window"]["height"].as<int>(),
+                    SDL_WINDOW_RESIZABLE),
 			sdl_deleter());
 	if(!window) {
 		cout << "Failed to create window." << endl << SDL_GetError();
@@ -58,8 +59,4 @@ Game* Game::s_instance = nullptr;
 Game* Game::instance() {
 	if(!s_instance) s_instance = new Game();
 	return s_instance;
-}
-
-void Game::fetchSettings() {
-	SDL_GetBasePath();
 }
